@@ -36,6 +36,7 @@ public class RedditClient {
         this.webClient = WebClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader("User-Agent", userAgent)
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(2 * 1024 * 1024))
                 .build();
     }
 
