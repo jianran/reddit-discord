@@ -20,8 +20,8 @@ spring:
 reddit:
   base-url: https://www.reddit.com
   user-agent: reddit-discord-bot/0.1.0
-  search-keywords: china,america,us-china,trade-war,tariffs
-  subreddits: worldnews,geopolitics,economics,news,china
+  search-keywords: china,america,us-china,trade-war,tariffs,中国经济,中美关系,贸易战,关税
+  subreddits: worldnews,geopolitics,economics,news,china,China_irl,saraba1st
 
 # Discord Bot
 discord:

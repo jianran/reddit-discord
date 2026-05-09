@@ -88,7 +88,9 @@ public class RedditClient {
         // Search by keywords across all of Reddit
         for (String keyword : keywords) {
             try {
-                String fullQuery = keyword + " economic trade policy";
+                String fullQuery = isChinese(keyword)
+                        ? keyword + " 经济 贸易 政策"
+                        : keyword + " economic trade policy";
                 String response = webClient.get()
                         .uri(uriBuilder -> uriBuilder
                                 .path("/search.json")
@@ -118,7 +120,9 @@ public class RedditClient {
         // Also search within specific subreddits
         for (String subreddit : subreddits) {
             try {
-                String fullQuery = "china OR america OR tariff OR trade OR economic";
+                String fullQuery = isChineseSub(subreddit)
+                        ? "中国 OR 美国 OR 经济 OR 贸易 OR 关税"
+                        : "china OR america OR tariff OR trade OR economic";
                 String response = webClient.get()
                         .uri(uriBuilder -> uriBuilder
                                 .path("/r/" + subreddit + "/search.json")
@@ -198,5 +202,15 @@ public class RedditClient {
             log.warn("Failed to parse post response: {}", e.getMessage());
             return List.of();
         }
+    }
+
+    /** Check if a keyword contains Chinese characters. */
+    private boolean isChinese(String text) {
+        return text.codePoints().anyMatch(cp -> Character.UnicodeScript.of(cp) == Character.UnicodeScript.HAN);
+    }
+
+    /** Chinese-language focused subreddits where posts are primarily in Chinese. */
+    private boolean isChineseSub(String subreddit) {
+        return Set.of("China_irl", "Youmo", "saraba1st").contains(subreddit);
     }
 }
